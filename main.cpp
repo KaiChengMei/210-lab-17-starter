@@ -11,6 +11,7 @@ struct Node {
 // add leverages functions
 void addToFront(Node *&head, int value);
 void addToTail(Node *&head, int value);
+void deleteNode(Node *&head, int position);
 
 void output(Node *);
 
@@ -40,6 +41,9 @@ int main() {
     int entry;
     cout << "Choice --> ";
     cin >> entry;
+    cout<<"d";
+    deleteNode(head, entry);
+    output(head);
 
     // traverse that many times and delete that node
     current = head;
@@ -136,4 +140,26 @@ void addToTail(Node *&head, int value) {
         }
         current->next = newNode;
     }
+}
+
+void deleteNode(Node *&head, int position) {
+    if (!head) return;  // If the list is empty
+
+    Node *current = head;
+    Node *prev = nullptr;
+// if delete 1st node
+    if (position == 1) {
+        head = head->next;
+        delete current;
+        return;
+    }
+
+    for (int i = 1; i < position && current != nullptr; i++) {
+        prev = current;
+        current = current->next;
+    }
+
+    if (!current) return;
+    prev->next = current->next;
+    delete current;
 }
