@@ -8,6 +8,10 @@ struct Node {
     Node *next;
 };
 
+// add leverages functions
+void addToFront(Node *&head, int value);
+void addToTail(Node *&head, int value);
+
 void output(Node *);
 
 int main() {
@@ -21,14 +25,10 @@ int main() {
         
         // adds node at head
         if (!head) { // if this is the first node, it's the new head
-            head = newVal;
-            newVal->next = nullptr;
-            newVal->value = tmp_val;
+            addToFront(head, tmp_val) ;
         }
         else { // its a second or subsequent node; place at the head
-            newVal->next = head;
-            newVal->value = tmp_val;
-            head = newVal;
+            addToTail(head, tmp_val);
         }
     }
     output(head);
@@ -111,4 +111,29 @@ void output(Node * hd) {
         current = current->next;
     }
     cout << endl;
+}
+
+
+
+void addToFront(Node *&head, int value) {
+    Node *newNode = new Node;
+    newNode->value = value;
+    newNode->next = head;
+    head = newNode;
+}
+
+void addToTail(Node *&head, int value) {
+    Node *newNode = new Node;
+    newNode->value = value;
+    newNode->next = nullptr;
+
+    if (!head) {
+        head = newNode;
+    } else {
+        Node *current = head;
+        while (current->next != nullptr) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
 }
