@@ -12,17 +12,18 @@ struct Node {
 void addToFront(Node *&head, int value);
 void addToTail(Node *&head, int value);
 void deleteNode(Node *&head, int position);
+void insertNode(Node *&head, int position, int value);
+void deleteList(Node *&head);
+void output(Node *head);
 
 void output(Node *);
 
 int main() {
     Node *head = nullptr;
-    int count = 0;
 
     // create a linked list of size SIZE with random numbers 0-99
     for (int i = 0; i < SIZE; i++) {
         int tmp_val = rand() % 100;
-        Node *newVal = new Node;
         
         // adds node at head
         if (!head) { // if this is the first node, it's the new head
@@ -35,7 +36,6 @@ int main() {
     output(head);
 
     // deleting a node
-    Node * current = head;
     cout << "Which node to delete? " << endl;
     output(head);
     int entry;
@@ -45,59 +45,15 @@ int main() {
     deleteNode(head, entry);
     output(head);
 
-    // traverse that many times and delete that node
-    current = head;
-    Node *prev = head;
-    for (int i = 0; i < (entry-1); i++)
-        if (i == 0)
-            current = current->next;
-        else {
-            current = current->next;
-            prev = prev->next;
-        }
-    // at this point, delete current and reroute pointers
-    if (current) {  // checks for current to be valid before deleting the node
-        prev->next = current->next;
-        delete current;
-        current = nullptr;
-    }
-    output(head);
-
-    // insert a node
-    current = head;
+    // Insert a node
     cout << "After which node to insert 10000? " << endl;
-    count = 1;
-    while (current) {
-        cout << "[" << count++ << "] " << current->value << endl;
-        current = current->next;
-    }
+    output(head);
     cout << "Choice --> ";
     cin >> entry;
-
-    current = head;
-    prev = head;
-    for (int i = 0; i < (entry); i++)
-        if (i == 0)
-            current = current->next;
-        else {
-            current = current->next;
-            prev = prev->next;
-        }
-    //at this point, insert a node between prev and current
-    Node * newnode = new Node;
-    newnode->value = 10000;
-    newnode->next = current;
-    prev->next = newnode;
+    insertNode(head, entry, 10000);  
     output(head);
 
-    // deleting the linked list
-    current = head;
-    while (current) {
-        head = current->next;
-        delete current;
-        current = head;
-    }
-    head = nullptr;
+    deleteList(head);
     output(head);
 
     return 0;
@@ -162,4 +118,34 @@ void deleteNode(Node *&head, int position) {
     if (!current) return;
     prev->next = current->next;
     delete current;
+}
+// insert 10000 
+void insertNode(Node *&head, int position, int value) {
+    Node *newNode =  new Node;
+    newNode->value =value;
+
+    if (position == 1) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+
+    Node *current = head;
+    Node *prev =nullptr;
+
+    for (int i = 1; i < position && current != nullptr;i++) {
+        prev = current;
+        current =current->next;
+    }
+}
+
+// delete the entire linked list
+void deleteList(Node *&head) {
+    Node *current = head;
+    while  (current) {
+        Node *nextNode = current->next;
+        delete current;
+        current =nextNode;
+    }
+    head =nullptr;
 }
