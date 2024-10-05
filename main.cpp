@@ -1,3 +1,4 @@
+// COMSC-210 | Lab 17 | Kai-Cheng Mei
 #include <iostream>
 using namespace std;
 
@@ -119,6 +120,7 @@ void deleteNode(Node *&head, int position) {
     prev->next = current->next;
     delete current;
 }
+
 // insert 10000 
 void insertNode(Node *&head, int position, int value) {
     Node *newNode =  new Node;
